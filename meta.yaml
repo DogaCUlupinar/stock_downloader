@@ -1,0 +1,24 @@
+package:
+  name: stock_downloader
+  version: 0.0.1
+
+source:
+  git_rev: /Users/dulupinar/Documents/Projects/stock_download
+  git_url: /Users/dulupinar/Documents/Projects/stock_download
+
+requirements:
+  build:
+    - python
+    - setuptools
+
+  run:
+    - python
+
+test:
+  imports: stock_download
+    -
+
+about:
+  home: /Users/dulupinar/Documents/Projects/stock_download
+  license: BSD
+  license_file:

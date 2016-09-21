@@ -1,0 +1,9 @@
+setup.py
+stock_download/__init__.py
+stock_download/dowloader.py
+stock_downloader.egg-info/PKG-INFO
+stock_downloader.egg-info/SOURCES.txt
+stock_downloader.egg-info/dependency_links.txt
+stock_downloader.egg-info/entry_points.txt
+stock_downloader.egg-info/requires.txt
+stock_downloader.egg-info/top_level.txt
