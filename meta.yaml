@@ -1,24 +1,30 @@
 package:
   name: stock_downloader
-  version: 0.0.1
+  version: "0.0.1"
 
 source:
-  git_rev: /Users/dulupinar/Documents/Projects/stock_download
-  git_url: /Users/dulupinar/Documents/Projects/stock_download
+  git_rev: 0.0.1
+  git_url: https://github.com/DogaCUlupinar/stock_downloader.git
 
 requirements:
   build:
     - python
     - setuptools
+    - six
+    - requests-file
+    - requests
+    - pytz
+    - python-dateutil
+    - pandas-datareader
+    - pandas
+    - numpy
 
   run:
     - python
 
 test:
-  imports: stock_download
-    -
+  imports: 
+    - stock_download
 
 about:
-  home: /Users/dulupinar/Documents/Projects/stock_download
-  license: BSD
-  license_file:
+  home: https://github.com/DogaCUlupinar/stock_downloader
