@@ -104,7 +104,7 @@ families = \
             'children': ['margin']
         },
     'download_func_args': {},
-    'download_symbol' : None
+    'download_symbol': None
 }
 
 
