@@ -16,16 +16,25 @@ def process_time(dataframe,**kwargs):
 
     return dataframe
 
-def process_pcr_default(dataframe,**kwargs):
+def process_pcr_default(dataframe):
 
     dataframe["VOLUME"] = pd.Series(0,dataframe.index)
     dataframe.columns = ['DATE', 'OPEN', 'HIGH', 'LOW', 'CLOSE', 'VOLUME']
 
-    return process_time(dataframe,**kwargs)
+    return dataframe
 
-def process_naim_default(dataframe,**kwargs):
+def process_naim_default(dataframe):
     dataframe = dataframe[['Date','Quart 1 (25% at/below)','Quart 2 (median)', 'Quart 3 (25% at/above)','Mean/Average']]
     dataframe["VOLUME"] = pd.Series(0, dataframe.index)
     dataframe.columns = ['DATE', 'OPEN', 'HIGH', 'LOW', 'CLOSE', 'VOLUME']
 
-    return process_time(dataframe,**kwargs)
+    return dataframe
+
+def process_margin_default(dataframe):
+    dataframe = dataframe[[0,3,1]]
+    dataframe.insert(2,"High",0)
+    dataframe.insert(2,"low",0)
+    dataframe.insert(5,"volume",0)
+    dataframe.columns = ['DATE', 'OPEN', 'HIGH', 'LOW', 'CLOSE', 'VOLUME']
+
+    return dataframe

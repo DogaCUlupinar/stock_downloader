@@ -87,15 +87,21 @@ families = \
             'process_func_args': {'format':"%m/%d/%Y"},
             'name': 'naim',
             'children': ['naim']
-        }
+        },
     'MARGIN':
         {
             'margin':
                 {
                     'symbol':'naim',
+                    'output_filename':'margin'
                 },
             'base_url': 'http://www.nyxdata.com/nysedata/asp/factbook/table_export_csv.asp?mode=tables&key=50',
-            'download_func': 'read_'
+            'download_func': 'read_csv_from_url',
+            'download_func_args': {'sep':"\t|\s",'skiprows':4,'header':None,'engine':'python'},
+            'process_func':'process_margin_default',
+            'process_func_args':{'format':"%m/%Y"},
+            'name': 'naim',
+            'children': ['margin']
         },
     'download_func_args': {},
     'download_symbol' : None
@@ -170,10 +176,10 @@ def get_value(dic,family,child,key):
         try:
             return dic[family][key]
         except KeyError:
-            return dict[key]
+            return dic[key]
 
 def main_test():
-    family = 'NAIM'
+    family = 'MARGIN'
     for child in families[family]['children']:
         #download
         download_func_name = get_value(families,family,child,'download_func')
@@ -188,8 +194,11 @@ def main_test():
 
         #process
         process_func_name = get_value(families, family, child,'process_func')
+        process_func_args = get_value(families,family,child,'process_func_args')
         process_func = getattr(prcs,process_func_name)
+
         df = process_func(df)
+        df = prcs.process_time(df,**process_func_args)
 
         #write to file
         file_name = get_value(families,family,child,'output_filename') + ".day"
@@ -199,7 +208,7 @@ def main_test():
             #write the header
             output.write(header_template.format(symbol=symbol,name=name))
             output.write("# DATE,OPEN,HIGH,LOW,CLOSE,VOLUME\n")
-            df.to_csv(output,sep=',',header=False,index=False,date_format="%m/%d/%Y")
+            df.to_csv(output,sep=',',header=False,index=False,date_format="%m/%d/%Y",na_rep=0)
 
     print('done')
 
