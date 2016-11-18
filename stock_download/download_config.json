@@ -1,0 +1,141 @@
+{
+    "data_sources": [
+        "Pcr"
+    ],
+    "process_func_args": {},
+    "download_symbol": null,
+    "download_func_args": {},
+    "FRED": {
+        "children": [
+            "CPROFIT",
+            "DFF",
+            "BAMLH0A0HYM2",
+            "USSLIND"
+        ],
+        "name": "fred",
+        "download_func": "read_from_fred",
+        "base_url": "{symbol}",
+        "process_func": "process_fred_default",
+        "download_func_args": {
+            "data_source": "fred",
+            "start": {
+                "day": 1,
+                "month": 1,
+                "year": 1972
+            }
+        },
+        "BAMLH0A0HYM2": {
+            "symbol": "BAMLH0A0HYM2",
+            "download_symbol": "BAMLH0A0HYM2",
+            "output_filename": "BAMLH0A0HYM2"
+        },
+
+        "DFF": {
+            "symbol": "DFF",
+            "download_symbol": "DFF",
+            "output_filename": "DFF"
+        },
+        "CPROFIT": {
+            "symbol": "CPROFIT",
+            "download_symbol": "CPROFIT",
+            "output_filename": "cprofit"
+        },
+        "USSLIND": {
+            "symbol": "USSLIND",
+            "download_symbol": "USSLIND",
+            "output_filename": "USSLIND"
+        }
+    },
+    "Aaii": {
+        "children": ["sentiment"],
+        "download_func": "read_xls_from_url",
+        "base_url": "http://www.aaii.com/files/surveys/{symbol}.xls",
+        "sentiment": {
+            "symbol": "sentiment",
+            "output_filename": "sentiment"
+        }
+    },
+    "NAIM": {
+        "children": [
+            "naim"
+        ],
+        "process_func": "process_naim_default",
+        "download_func": "read_csv_from_url",
+        "process_func_args": {
+            "format": "%m/%d/%Y"
+        },
+        "base_url": "http://www.naaim.org/wp-content/plugins/ip-chart/{symbol}.php",
+        "name": "naim",
+        "naim": {
+            "symbol": "naim",
+            "download_symbol": "export",
+            "output_filename": "naim"
+        }
+    },
+    "MARGIN": {
+        "children": [
+            "margin"
+        ],
+        "process_func_args": {
+            "format": "%m/%Y"
+        },
+                "download_func_args": {
+            "engine": "python",
+            "skiprows": 4,
+            "sep": "\t|\\s",
+            "header": null
+        },
+        "process_func": "process_margin_default",
+        "name": "margin",
+        "download_func": "read_csv_from_url",
+        "base_url": "http://www.nyxdata.com/nysedata/asp/factbook/table_export_csv.asp?mode=tables&key=50",
+        "margin": {
+            "symbol": "margin",
+            "output_filename": "margin"
+        }
+    },
+    "Pcr": {
+        "children": [
+            "totalpc",
+            "indexpc",
+            "equitypc",
+            "etppc",
+            "vixpc"
+        ],
+        "download_func_args": {
+            "skiprows": 2
+        },
+        "process_func_args": {
+            "format": "%m/%d/%Y"
+        },
+        "download_func": "read_csv_from_url",
+        "name": "Pcr",
+        "process_func": "process_pcr_default",
+        "base_url": "http://www.cboe.com/publish/scheduledtask/mktdata/datahouse/{symbol}.csv",
+        "etppc": {
+            "symbol": "etppc",
+            "download_symbol": "etppc",
+            "output_filename": "etppc"
+        },
+        "indexpc": {
+            "symbol": "indexpc",
+            "download_symbol": "indexpc",
+            "output_filename": "indexpc"
+        },
+        "equitypc": {
+            "symbol": "equitypc",
+            "download_symbol": "equitypc",
+            "output_filename": "equitypc"
+        },
+        "vixpc": {
+            "symbol": "vixpc",
+            "download_symbol": "vixpc",
+            "output_filename": "vixpc"
+        },
+        "totalpc": {
+            "symbol": "totalpc",
+            "download_symbol": "totalpc",
+            "output_filename": "mytotalpc"
+        }
+    }
+}
