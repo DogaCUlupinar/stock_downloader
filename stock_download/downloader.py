@@ -10,128 +10,6 @@ import stock_download.downloaders as dwns
 
 logger = logging.getLogger(__name__)
 
-
-families = \
-{
-    'data_sources':['Pcr'],
-    'Pcr':
-    {
-        'totalpc':
-            {
-                'symbol': 'totalpc',
-                'download_symbol': 'totalpc',
-                'output_filename': 'mytotalpc',
-            },
-        'indexpc':
-            {
-                'symbol': 'indexpc',
-                'download_symbol': 'indexpc',
-                'output_filename': 'indexpc',
-            },
-        'equitypc':
-            {
-                'symbol': 'equitypc',
-                'download_symbol': 'equitypc',
-                'output_filename': 'equitypc',
-            },
-        'etppc':
-            {
-                'symbol': 'etppc',
-                'download_symbol': 'etppc',
-                'output_filename': 'etppc',
-            },
-        'vixpc':
-            {
-                'symbol': 'vixpc',
-                'download_symbol': 'vixpc',
-                'output_filename': 'vixpc',
-            },
-        'base_url': 'http://www.cboe.com/publish/scheduledtask/mktdata/datahouse/{symbol}.csv',
-        'download_func': 'read_csv_from_url',
-        'download_func_args': {'skiprows': 2},
-        'process_func': 'process_pcr_default',
-        'process_func_args': {'format':"%m/%d/%Y"},
-        'name':'Pcr',
-        'children': ['totalpc','indexpc','equitypc','etppc','vixpc']
-    },
-    'Aaii':
-        {
-            'sentiment':
-                {
-                    'symbol':'sentiment',
-                    'output_filename': 'sentiment'
-                },
-            'base_url': 'http://www.aaii.com/files/surveys/{symbol}.xls',
-            'download_func': 'read_xls_from_url'
-        },
-    'NAIM':
-        {
-            'naim':
-                {
-                    'symbol':'naim',
-                    'download_symbol': 'export',
-                    'output_filename':'naim'
-                },
-            'base_url':'http://www.naaim.org/wp-content/plugins/ip-chart/{symbol}.php',
-            'download_func': 'read_csv_from_url',
-            'process_func': 'process_naim_default',
-            'process_func_args': {'format':"%m/%d/%Y"},
-            'name': 'naim',
-            'children': ['naim']
-        },
-    'MARGIN':
-        {
-            'margin':
-                {
-                    'symbol':'naim',
-                    'output_filename':'margin'
-                },
-            'base_url': 'http://www.nyxdata.com/nysedata/asp/factbook/table_export_csv.asp?mode=tables&key=50',
-            'download_func': 'read_csv_from_url',
-            'download_func_args': {'sep':"\t|\s",'skiprows':4,'header':None,'engine':'python'},
-            'process_func':'process_margin_default',
-            'process_func_args':{'format':"%m/%Y"},
-            'name': 'naim',
-            'children': ['margin']
-        },
-    'FRED':
-        {
-            'CPROFIT':
-                {
-                    'symbol': 'CPROFIT',
-                    'download_symbol': 'CPROFIT',
-                    'output_filename': 'cprofit'
-                },
-            'DFF':
-                {
-                    'symbol': 'DFF',
-                    'download_symbol': 'DFF',
-                    'output_filename': 'DFF'
-                },
-            'BAMLH0A0HYM2':
-                {
-                    'symbol': 'BAMLH0A0HYM2',
-                    'download_symbol': 'BAMLH0A0HYM2',
-                    'output_filename': 'BAMLH0A0HYM2'
-                },
-            'USSLIND':
-                {
-                    'symbol': 'USSLIND',
-                    'download_symbol': 'USSLIND',
-                    'output_filename': 'USSLIND'
-                },
-            'base_url': '{symbol}',
-            'download_func': 'read_from_fred',
-            'download_func_args': {'start': {'year':1972,'day':1,'month':1},'data_source':'fred'},
-            'process_func': 'process_fred_default',
-            'name': 'fred',
-            'children': ['CPROFIT','DFF','BAMLH0A0HYM2','USSLIND']
-        },
-    'process_func_args': {},
-    'download_func_args': {},
-    'download_symbol': None
-}
-
 header_template = "Type FST_Hist\n" \
                   "Version 2.0\n" \
                   "Symbol {symbol}\n" \
@@ -146,7 +24,9 @@ def config_logger(logger,logging_level):
     logger.addHandler(stream_handler)
 
 def read_config():
-    os.path.join(os.pardir,'configs')
+    file_path = os.path.join(os.pardir,'configs','download_config.json')
+    with open(file_path,'r') as f:
+        return json.load(f)
 
 def get_value(dic,family,child,key):
     try:
